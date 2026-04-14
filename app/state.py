@@ -1,5 +1,25 @@
+#state.py
 import reflex as rx
+import sqlmodel
+import hashlib
 
+
+# ── BDDs ────────────────────────────────────────────────────────────
+
+#Usuaris
+class User(rx.Model, table=True):
+    username: str = sqlmodel.Field(unique=True, index=True)
+    password: str
+    colla: str
+
+
+# ── Helpers ───────────────────────────────────────────────────────────────────
+
+def hash_password(password: str) -> str:
+    return hashlib.sha256(password.encode()).hexdigest()
+
+
+# ── App State ─────────────────────────────────────────────────────────────────
 
 class AppState(rx.State):
     username: str = ""
@@ -28,11 +48,28 @@ class AppState(rx.State):
     results_tab: str = "visual"
 
     def do_login(self):
-        if not self.login_username.strip():
-            self.login_error = "Please enter a username."
+        username = self.login_username.strip()
+        password = self.login_password.strip()
+
+        if not username or not password:
+            self.login_error = "Please enter both username and password."
             return
-        self.username = self.login_username.strip()
-        self.display_name = self.username
+
+        with rx.session() as session:
+            user = session.exec(
+                sqlmodel.select(User).where(User.username == username)
+            ).first()
+
+        if user is None:
+            self.login_error = "User not found."
+            return
+
+        if user.password != password:
+            self.login_error = "Incorrect password."
+            return
+
+        self.username = username
+        self.display_name = username
         self.is_logged_in = True
         self.login_error = ""
         return rx.redirect("/dashboard")
