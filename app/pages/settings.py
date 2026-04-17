@@ -36,29 +36,29 @@ def setting_row(label: str, desc: str, is_on: rx.Var, on_click) -> rx.Component:
 def settings_page() -> rx.Component:
     return app_layout(
         rx.box(
-            rx.text("Settings", style=styles.page_title_style),
-            rx.text("Configure your account and optimization preferences", style=styles.page_sub_style),
+            rx.text("Preferències", style=styles.page_title_style),
+            rx.text("Configura les preferències del teu compte i de l'optimització.", style=styles.page_sub_style),
             rx.box(
-                rx.text("Optimization settings", style=styles.card_title_style),
-                setting_row("Prioritize safety score", "Weight stability and balance over height",
+                rx.text("Preferències d'optimització", style=styles.card_title_style),
+                setting_row("Prioritza la puntuació de seguretat", "Prefereix estabilitat de pesos sobre alçades",
                             AppState.prioritize_safety, AppState.toggle_safety),
-                setting_row("Allow position swaps", "Optimizer may override preferred positions",
+                setting_row("Permet canvis de posicions", "L'optimitzador pot sobreescriure posicions.",
                             AppState.allow_swaps, AppState.toggle_swaps),
-                setting_row("Use experience weighting", "Favour experienced castellers for top positions",
+                setting_row("Pondera segons experiència", "Preferir castellers experimentats per a posicions crítiques.",
                             AppState.use_experience, AppState.toggle_experience),
                 style=styles.card_style,
             ),
             rx.box(
-                rx.text("Account", style=styles.card_title_style),
+                rx.text("Compte", style=styles.card_title_style),
                 rx.grid(
                     rx.vstack(
-                        rx.text("Display name", style=styles.label_style),
-                        rx.input(placeholder="Your name", value=AppState.display_name,
+                        rx.text("Nom", style=styles.label_style),
+                        rx.input(placeholder="El teu nom", value=AppState.display_name,
                                  on_change=AppState.set_display_name, font_size="13px", width="100%"),
                         spacing="1", align_items="flex_start", width="100%",
                     ),
                     rx.vstack(
-                        rx.text("Email", style=styles.label_style),
+                        rx.text("Correu electrònic", style=styles.label_style),
                         rx.input(placeholder="you@colla.cat", type="email", value=AppState.email,
                                  on_change=AppState.set_email, font_size="13px", width="100%"),
                         spacing="1", align_items="flex_start", width="100%",

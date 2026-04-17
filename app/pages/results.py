@@ -5,10 +5,12 @@ from app.components.layout import app_layout
 
 FORMATION = [
     {"floor": "Enxaneta",   "members": ["Laia"],                          "bg": styles.PURPLE_LIGHT, "fg": styles.PURPLE_DARK},
-    {"floor": "Pom de dalt","members": ["Marc", "Anna"],                  "bg": styles.TEAL_LIGHT,   "fg": styles.TEAL_DARK},
-    {"floor": "Quarts",     "members": ["Pere", "Joan", "Rosa", "Marta"], "bg": styles.CORAL_LIGHT,  "fg": styles.CORAL_DARK},
-    {"floor": "Terços",     "members": ["Sergi", "Núria", "Jordi", "Mireia"], "bg": styles.BLUE_LIGHT, "fg": styles.BLUE_DARK},
-    {"floor": "Pinya",      "members": ["Albert", "Carla", "Ferran", "Elena"], "bg": styles.PURPLE_LIGHT, "fg": styles.PURPLE_DARK},
+    {"floor": "Acotxador",   "members": ["Jana"],                          "bg": styles.PURPLE_LIGHT, "fg": styles.PURPLE_DARK},
+    {"floor": "Pom de dalt","members": ["Mireia A", "Anna"],                  "bg": styles.TEAL_LIGHT,   "fg": styles.TEAL_DARK},
+    {"floor": "Quarts",     "members": ["Mireia B", "Núria", "Rosa", "Marta"], "bg": styles.CORAL_LIGHT,  "fg": styles.CORAL_DARK},
+    {"floor": "Terços",     "members": ["Sergi", "Joan", "Jordi", "Pere"], "bg": styles.BLUE_LIGHT, "fg": styles.BLUE_DARK},
+    {"floor": "Segons",      "members": ["Albert", "Pau", "Ferran", "Miki"], "bg": styles.PURPLE_LIGHT, "fg": styles.PURPLE_DARK},
+    {"floor": "Baixos",      "members": ["Xavi", "Antoni", "Ona", "Martina"], "bg": styles.PURPLE_LIGHT, "fg": styles.PURPLE_DARK},
 ]
 
 MEMBERS = [
@@ -31,8 +33,8 @@ def chip(name: str, bg: str, fg: str) -> rx.Component:
 def results_page() -> rx.Component:
     return app_layout(
         rx.box(
-            rx.text("Results", style=styles.page_title_style),
-            rx.text("Optimized castell formation", style=styles.page_sub_style),
+            rx.text("Resultats", style=styles.page_title_style),
+            rx.text("Formació òptima del castell", style=styles.page_sub_style),
 
             # Tab bar
             rx.hstack(
@@ -47,7 +49,7 @@ def results_page() -> rx.Component:
                     cursor="pointer",
                 ),
                 rx.button(
-                    "Member list",
+                    "Llista de membres",
                     on_click=lambda: AppState.set_results_tab("list"),
                     font_size="13px", padding="8px 14px", border_radius="0",
                     background_color="transparent", border="none",
@@ -66,8 +68,8 @@ def results_page() -> rx.Component:
             rx.cond(
                 AppState.results_tab == "visual",
                 rx.box(
-                    rx.text("4 de 8 — optimized formation", style=styles.card_title_style),
-                    rx.text("Top → bottom", font_size="11px", color=styles.TEXT_SECONDARY, text_align="center", margin_bottom="12px"),
+                    rx.text("4d8 — formació òptima", style=styles.card_title_style),
+                    rx.text("Tronc", font_size="11px", color=styles.TEXT_SECONDARY, text_align="center", margin_bottom="12px"),
                     rx.vstack(
                         *[
                             rx.hstack(
@@ -88,10 +90,10 @@ def results_page() -> rx.Component:
                     rx.table.root(
                         rx.table.header(
                             rx.table.row(
-                                rx.table.column_header_cell(rx.text("Name", font_size="12px", color=styles.TEXT_SECONDARY)),
-                                rx.table.column_header_cell(rx.text("Position", font_size="12px", color=styles.TEXT_SECONDARY)),
-                                rx.table.column_header_cell(rx.text("Height", font_size="12px", color=styles.TEXT_SECONDARY)),
-                                rx.table.column_header_cell(rx.text("Score", font_size="12px", color=styles.TEXT_SECONDARY)),
+                                rx.table.column_header_cell(rx.text("Nom", font_size="12px", color=styles.TEXT_SECONDARY)),
+                                rx.table.column_header_cell(rx.text("Posició", font_size="12px", color=styles.TEXT_SECONDARY)),
+                                rx.table.column_header_cell(rx.text("Alçada", font_size="12px", color=styles.TEXT_SECONDARY)),
+                                rx.table.column_header_cell(rx.text("Puntuació", font_size="12px", color=styles.TEXT_SECONDARY)),
                             )
                         ),
                         rx.table.body(
@@ -112,8 +114,8 @@ def results_page() -> rx.Component:
             ),
 
             rx.hstack(
-                rx.button("Run optimizer (coming soon)", style={**styles.btn_primary, "opacity": "0.6", "cursor": "not-allowed"}),
-                rx.button("Export as PDF", style=styles.btn_secondary),
+                rx.button("Optimitzar (coming soon)", style={**styles.btn_primary, "opacity": "0.6", "cursor": "not-allowed"}),
+                rx.button("Exporta com a PDF", style=styles.btn_secondary),
                 spacing="2", margin_top="4px",
             ),
             width="100%",

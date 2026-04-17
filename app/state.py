@@ -11,6 +11,7 @@ class User(rx.Model, table=True):
     username: str = sqlmodel.Field(unique=True, index=True)
     password: str
     colla: str
+    email: str
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -52,7 +53,7 @@ class AppState(rx.State):
         password = self.login_password.strip()
 
         if not username or not password:
-            self.login_error = "Please enter both username and password."
+            self.login_error = "Si et plau, escriu el teu usuari i contrasenya."
             return
 
         with rx.session() as session:
@@ -61,17 +62,19 @@ class AppState(rx.State):
             ).first()
 
         if user is None:
-            self.login_error = "User not found."
+            self.login_error = "L'usuari no existeix."
             return
 
         if user.password != password:
-            self.login_error = "Incorrect password."
+            self.login_error = "Contrasenya incorrecta."
             return
 
         self.username = username
         self.display_name = username
         self.is_logged_in = True
         self.login_error = ""
+        self.email = user.email
+        self.colla = user.colla
         return rx.redirect("/dashboard")
 
     def do_logout(self):
@@ -86,9 +89,9 @@ class AppState(rx.State):
 
     def save_casteller(self):
         if not self.casteller_name.strip():
-            self.entry_success = "error:Name is required."
+            self.entry_success = "error: El nom és obligatori."
             return
-        self.entry_success = f"success:{self.casteller_name} saved successfully!"
+        self.entry_success = f"èxit: {self.casteller_name} desat correctament!"
         self.casteller_name = ""
         self.casteller_height = ""
         self.casteller_weight = ""
@@ -108,7 +111,7 @@ class AppState(rx.State):
         self.entry_success = ""
 
     def save_settings(self):
-        self.settings_saved = "Settings saved!"
+        self.settings_saved = "Preferències actualitzades correctament!"
 
     def toggle_safety(self):
         self.prioritize_safety = not self.prioritize_safety

@@ -9,16 +9,16 @@ def login_page() -> rx.Component:
             rx.vstack(
                 rx.text("🏰", font_size="36px", text_align="center"),
                 rx.text("CastellOpt", font_size="22px", font_weight="500", color=styles.TEXT_PRIMARY),
-                rx.text("Human tower optimizer", font_size="13px", color=styles.TEXT_SECONDARY),
+                rx.text("Optimitzador de castells", font_size="13px", color=styles.TEXT_SECONDARY),
                 spacing="1",
                 align_items="center",
                 margin_bottom="24px",
             ),
             rx.vstack(
                 rx.vstack(
-                    rx.text("Username", style=styles.label_style),
+                    rx.text("Usuari", style=styles.label_style),
                     rx.input(
-                        placeholder="your username",
+                        placeholder="el teu usuari",
                         value=AppState.login_username,
                         on_change=AppState.set_login_username,
                         width="100%",
@@ -29,7 +29,7 @@ def login_page() -> rx.Component:
                     align_items="flex_start",
                 ),
                 rx.vstack(
-                    rx.text("Password", style=styles.label_style),
+                    rx.text("Contrasenya", style=styles.label_style),
                     rx.input(
                         type="password",
                         placeholder="••••••••",
@@ -47,7 +47,7 @@ def login_page() -> rx.Component:
                     rx.text(AppState.login_error, font_size="12px", color="red"),
                 ),
                 rx.button(
-                    "Sign in",
+                    "Entra",
                     on_click=AppState.do_login,
                     width="100%",
                     background_color=styles.PURPLE_MID,
